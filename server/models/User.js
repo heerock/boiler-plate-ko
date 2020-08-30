@@ -59,12 +59,12 @@ userSchema.pre('save', function (next) {
 userSchema.methods.comparePassword = function (plainPassword, cb) {
     //plainPassword 1234567 암호화된 비밀번호
     bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
-        if (err) return cb(err),
-            cb(null, isMatch)
+        if (err) return cb(err);
+        cb(null, isMatch)
     })
 }
 
-userSchema.methods.generateToken = (cb) => {
+userSchema.methods.generateToken = function (cb) {
 
     const user = this;
 
@@ -81,7 +81,7 @@ userSchema.methods.generateToken = (cb) => {
 }
 
 
-userSchema.methods.findByToken = (token, cb) => {
+userSchema.statics.findByToken = function (token, cb) {
     const user = this;
 
     //토큰을 decode 한다.
